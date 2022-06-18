@@ -1,5 +1,5 @@
 # DataStructuresFinalProject
-
+By: Sulthan, Reyhan, Sandrian, and Rizky
 TODOLIST:
 
 1. linked list implementation

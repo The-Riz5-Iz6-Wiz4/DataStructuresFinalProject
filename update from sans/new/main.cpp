@@ -239,11 +239,7 @@ public:
         do {
             try {
                 input = stoi(rawInput);
-                while (input > BoardSize) {
-                    cout << "Invalid input, please enter a number within the size of the board." << endl;
-                    cin >> input;
                 convertSuccess = true;
-                }
             }
             catch (...) {
                 cout << "Invalid input, please try a number." << endl;
@@ -253,11 +249,13 @@ public:
 
         } while (!convertSuccess);
 
-
+        while (input > BoardSize) {
+            cout << "Invalid input, please enter a number within the size of the board." << endl;
+            cin >> input;
             //if (){
             //    break;
             //}
-
+        }
 
         return input - 1;
 

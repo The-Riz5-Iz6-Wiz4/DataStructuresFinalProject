@@ -156,6 +156,7 @@ public:
             }
         }
     };
+};
 
 int main() {
     //char restart;
@@ -310,4 +311,4 @@ int main() {
 
         return 0;
     }
-}
+

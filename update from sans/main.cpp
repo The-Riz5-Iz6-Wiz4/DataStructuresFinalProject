@@ -21,7 +21,8 @@ private:
         int yCoord;
     };
 public:
-    Battleships() {
+
+    Battleship() {
         co0rd = 0;
         maximumShips = 10;
     }
@@ -156,134 +157,134 @@ public:
         }
     };
 
-    int main() {
-        //char restart;
-        bool isRunning = true;
-        int cpuX, cpuY;
+int main() {
+    //char restart;
+    bool isRunning = true;
+    int cpuX, cpuY;
 
-        do {
-            srand((unsigned)time(NULL));
-            //string str(L"Battleshops");
-            //SetConsoleTitle(str.c_str());
-            Battleship human;
-            Battleship cpu;
+    do {
+        srand((unsigned)time(NULL));
+        //string str(L"Battleshops");
+        //SetConsoleTitle(str.c_str());
+        Battleship human;
+        Battleship cpu;
 
-            Boards humanBoard;
-            Boards cpuBoard;
+        Boards humanBoard;
+        Boards cpuBoard;
 
-            human.clearGrid();
-            human.setShips();
+        human.clearGrid();
+        human.setShips();
 
-            cpu.clearGrid();
-            cpu.setShips();
+        cpu.clearGrid();
+        cpu.setShips();
 
-            humanBoard.MakeBoards();
-            cpuBoard.MakeBoards();
+        humanBoard.MakeBoards();
+        cpuBoard.MakeBoards();
+
+        cout << "Your board: " << endl;
+        humanBoard.PrintBoards();
+        cout << "the Computer's board" << endl;
+        cpuBoard.PrintBoards();
+
+        int position1, position2;
+        char which;
+        int found = 0;
+        int toGo = 10;
+
+        int cpuFound = 0;
+        int cpuToGet = 10;
+
+        bool isTrueHuman;
+        bool isTrueCPU;
+
+        int choice;
+        //coordPair enemyShipCoord;
+
+        while (found < 10 || cpuFound < 10) {
+            cpuX = rand() % 10;
+            cpuY = rand() % 10;
+
+            if (cpu.attack(cpuX, cpuY)) {
+                isTrueCPU = true;
+                cpuFound++;
+                cpuToGet--;
+                cout << "The computer has destroyed your battleship at: " << "(" << cpuX << ", " << cpuY << ")" << endl;
+            }
+            else {
+                isTrueCPU = false;
+                cout << "The computer did not find a battleship this time" << endl;
+            }
+        }
+
+
+
+        while (position1 > 9 || position2 > 9)
+        {
+            if (cpuFound == 10 || found == 10) {
+                break;
+            }
+            cout << "Enter 1 to attack." << endl;
+            cin >> choice;
+            switch (choice) {
+            case 1:
+                cout << "Please input where you want to attack on the grid: ";
+
+                cin >> position1 >> position2;
+
+                while (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    cout << "not int, try again: "; cin >> position1 >> position2;
+                }
+
+                if (human.attack(position1, position2))
+                {
+                    isTrueHuman = true;
+                    found++;
+                    toGo--;
+                    cout << "You have found: " << found << " battleships, you have: " << toGo << " to go" << endl;
+                }
+                else
+                {
+                    isTrueHuman = false;
+                    cout << "there is no ship at that position, keep trying" << endl;
+                }
+
+                break;
+
+            //case 2:
+                //enemyShipCoord = battleScan();
+
+
+                //break;
+
+            default:
+                cout << "not an option, please input an integer";
+                break;
+            }
+
+            cout << "There are: " << human.numberOfShips() << " left" << endl;
+            cout << "would you like to surrender (y/n)?: ";
+            cin >> which;
+
+            system("CLS");
+
+            humanBoard.updateBoards(isTrueHuman, position1, position2);
+            cpuBoard.updateBoards(isTrueCPU, cpuX, cpuY);
 
             cout << "Your board: " << endl;
             humanBoard.PrintBoards();
             cout << "the Computer's board" << endl;
             cpuBoard.PrintBoards();
 
-            int position1, position2;
-            char which;
-            int found = 0;
-            int toGo = 10;
-
-            int cpuFound = 0;
-            int cpuToGet = 10;
-
-            bool isTrueHuman;
-            bool isTrueCPU;
-
-            int choice;
-            coordPair enemyShipCoord;
-
-            while (found < 10 || cpuFound < 10) {
-                cpuX = rand() % 10;
-                cpuY = rand() % 10;
-
-                if (cpu.attack(cpuX, cpuY)) {
-                    isTrueCPU = true;
-                    cpuFound++;
-                    cpuToGet--;
-                    cout << "The computer has destroyed your battleship at: " << "(" << cpuX << ", " << cpuY << ")" << endl;
-                }
-                else {
-                    isTrueCPU = false;
-                    cout << "The computer did not find a battleship this time" << endl;
-                }
+            if (which == 'y') {
+                break;
             }
-
-
-
-            while (position1 > 9 || position2 > 9)
-            {
-                if (cpuFound == 10 || found == 10) {
-                    break;
-                }
-                cout << "Enter 1 to attack." << endl;
-                cin >> choice;
-                switch (choice) {
-                case 1:
-                    cout << "Please input where you want to attack on the grid: ";
-
-                    cin >> position1 >> position2;
-
-                    while (cin.fail())
-                    {
-                        cin.clear();
-                        cin.ignore();
-                        cout << "not int, try again: "; cin >> position1 >> position2;
-                    }
-
-                    if (human.attack(position1, position2))
-                    {
-                        isTrueHuman = true;
-                        found++;
-                        toGo--;
-                        cout << "You have found: " << found << " battleships, you have: " << toGo << " to go" << endl;
-                    }
-                    else
-                    {
-                        isTrueHuman = false;
-                        cout << "there is no ship at that position, keep trying" << endl;
-                    }
-
-                    break;
-
-                //case 2:
-                    //enemyShipCoord = battleScan();
-
-
-                    //break;
-
-                default:
-                    cout << "not an option, please input an integer";
-                    break;
-                }
-
-                cout << "There are: " << human.numberOfShips() << " left" << endl;
-                cout << "would you like to surrender (y/n)?: ";
-                cin >> which;
-
-                system("CLS");
-
-                humanBoard.updateBoards(isTrueHuman, position1, position2);
-                cpuBoard.updateBoards(isTrueCPU, cpuX, cpuY);
-
-                cout << "Your board: " << endl;
-                humanBoard.PrintBoards();
-                cout << "the Computer's board" << endl;
-                cpuBoard.PrintBoards();
-
-                if (which == 'y') {
-                    break;
-                }
-                else if (found == 10 || cpuFound == 10) {
-                    break;
-                }
+            else if (found == 10 || cpuFound == 10) {
+                break;
             }
+        }
 
 
 
@@ -309,4 +310,4 @@ public:
 
         return 0;
     }
-};
+}

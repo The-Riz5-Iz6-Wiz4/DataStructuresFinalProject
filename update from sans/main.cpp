@@ -159,6 +159,7 @@ public:
     int main() {
         //char restart;
         bool isRunning = true;
+        int cpuX, cpuY;
 
         do {
             srand((unsigned)time(NULL));
@@ -199,8 +200,8 @@ public:
             coordPair enemyShipCoord;
 
             while (found < 10 || cpuFound < 10) {
-                int cpuX = rand() % 10;
-                int cpuY = rand() % 10;
+                cpuX = rand() % 10;
+                cpuY = rand() % 10;
 
                 if (cpu.attack(cpuX, cpuY)) {
                     isTrueCPU = true;
@@ -263,7 +264,8 @@ public:
                 }
 
                 cout << "There are: " << human.numberOfShips() << " left" << endl;
-                cout << "would you like to surrender (y/n)?: "; cin >> which;
+                cout << "would you like to surrender (y/n)?: ";
+                cin >> which;
 
                 system("CLS");
 
@@ -275,7 +277,7 @@ public:
                 cout << "the Computer's board" << endl;
                 cpuBoard.PrintBoards();
 
-                if (which == "y") {
+                if (which == 'y') {
                     break;
                 }
                 else if (found == 10 || cpuFound == 10) {

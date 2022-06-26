@@ -82,8 +82,8 @@ void loseText(){ //ascii art text of losing method
 class Player
 {
 private:
-    const static int BoardSize = 3; //Declares the maximum board size
-    const static int maximumShips = 3; //Declares the max amount of ships available
+    const static int BoardSize = 10; //Declares the maximum board size
+    const static int maximumShips = 10; //Declares the max amount of ships available
 
     const static int NOSHIP = 0; //int to show if there is no ship on the board
     const static int ATTACKED = 1; //int to show if a particular location has been attacked on the board

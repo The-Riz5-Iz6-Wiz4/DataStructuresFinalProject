@@ -1,5 +1,7 @@
-# DataStructuresFinalProject
-By: Sulthan, Reyhan, Sandrian, and Rizky
+# Data Structures Final Project
+By: Sulthan (2502020075), Rayhan (2501982582), and Sandrian (2502016411) (L2CC)
+
+(Rizky was one of our members until he went solo for his own final project)
 
 WELCOME TO BATTLESHIPS: A C++ Remake                                                                                                   
                                                                                                                 

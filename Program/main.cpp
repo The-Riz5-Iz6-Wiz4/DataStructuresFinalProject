@@ -141,7 +141,7 @@ private:
                 int xPosition = rand() % maximumShips;
                 int yPosition = rand() % maximumShips;
 
-                if (matrixBoard[xPosition][yPosition] != SHIP) { //same as on line 62
+                if (matrixBoard[xPosition][yPosition] != SHIP) {
                     numOfShips++;
                     matrixBoard[xPosition][yPosition] = SHIP;
                 }
@@ -169,19 +169,17 @@ public:
 
 
     //method to attack the target coordinates
-    bool attack(Player *enemy, int newX, int newY) {
+    bool attack(Player *enemy, int newX, int newY) { //The "*" and "->" is part of pointers
         //check the coordinate:
         //if coordinate is occupied with ship, destroy it
         if (enemy->matrixBoard[newX][newY] == SHIP) {
             enemy->matrixBoard[newX][newY] = DESTROYED;
-            //cout << "it destroyed" << " " << newX << " " << newY << endl;
-            enemy->numOfShips--;
+            enemy->numOfShips--; //decrease by 1 of either the player or cpu ships
             return true;
         }
         //else if coordinate is not occupied with a ship, mark it as attacked
         else if (enemy->matrixBoard[newX][newY] == NOSHIP) {
             enemy->matrixBoard[newX][newY] = ATTACKED;
-            //cout << "it attacked" << " " << newX << " " << newY << endl;
             return true;
         }
         //else if coordinate is already destroyed, tell user that the ship has already been destroy
@@ -240,8 +238,9 @@ public:
         }
     }
 
-    //method to take user input. string prompt helps to display the prompt that is needed to be asked, and then take
+    //method to take user input + exception handling.
     int takeInputBoard(string prompt) {
+    //string prompt helps to display the prompt that is needed to be asked, and then ask for input
     //setup int value to return
         int input;
         string rawInput;
@@ -249,44 +248,34 @@ public:
         cin >> rawInput;
         bool convertSuccess = false;
 
-    //while loop to check if input is greater than rows and columns amount
-    //input > BoardSize
+    //do while loop to check if input can be converted to int and is greater than rows and columns amount
         do {
             try {
-                input = stoi(rawInput);
-                convertSuccess = true;
+                input = stoi(rawInput); //convert string to input
+
+                if (input > BoardSize){ //then check if the input is greater than board size
+                    throw 99; //throw exception
+                }
+                convertSuccess = true; //change bool to true and fin
             }
-            catch (...) {
-                cout << "Invalid input, please try a number." << endl;
-                cin >> rawInput;
+            catch (...) { //if it catches any error
+                cout << "Invalid input, please try a number within the board range." << endl;
+                cin >> rawInput; //ask for input again
             }
 
 
-        } while (!convertSuccess);
-
-        while (input > BoardSize) {
-            cout << "Invalid input, please enter a number within the size of the board." << endl;
-            cin >> input;
-            //if (){
-            //    break;
-            //}
-        }
+        } while (!convertSuccess); //do while bool is false
 
         return input - 1;
 
     }
 
-
+    //method to determine the attack turn of player or cpu
     void doTurn(Player *enemy) { //enemy pointer
         if (isCpu == false) { //check for player
             spaceConsole(1);
-            hashtagConsole(30);
-            spaceConsole(1);
             cout << "It's time for you to attack." << endl;
             spaceConsole(1);
-            hashtagConsole(30);
-            spaceConsole(1);
-            //cout << "You have " << numOfShips << endl;
 
             int xInput;
             int yInput;
@@ -311,32 +300,22 @@ public:
     }
 
 
-    //display the lose screen
-    void displayLoseScreen(){
-//        spaceConsole(1);
-//        hashtagConsole(30);
-        spaceConsole(1);
-        cout << "Goddamnit. You lost to a randomizer. All your ships are lost. Try again next time." << endl;
-        spaceConsole(1);
-//        hashtagConsole(30);
-//        spaceConsole(1);
-    }
-
-    //display the win screen
-    void displayWinScreen(){
-//        spaceConsole(1);
-//        hashtagConsole(30);
-        spaceConsole(1);
-        cout << "Congratulations. You win! You successfully destroyed all enemy ships. Thank you for playing." << endl;
-        spaceConsole(1);
-//        hashtagConsole(30);
-//        spaceConsole(1);
-    }
-
-
 };
 
 
+//display the lose screen
+void displayLoseText(){
+    spaceConsole(1);
+    cout << "Goddamnit, they got you first. You lost to a randomizer. All your ships are lost. Try again next time." << endl;
+    spaceConsole(1);
+}
+
+//display the win screen
+void displayWinText(){
+    spaceConsole(1);
+    cout << "Congratulations. You win! You successfully destroyed all enemy ships. Thank you for playing." << endl;
+    spaceConsole(1);
+}
 
 
 
@@ -357,13 +336,14 @@ int main() {
         spaceConsole(1);
         player.displayBoard();
         spaceConsole(1);
-        cout << "You have " << player.getNumOfShips() << " ship(s) left" << endl;
+        cout << "You have " << player.getNumOfShips() << " ship(s) left." << endl;
         //ask player to attack
         player.doTurn(&cpu);
         //let cpu do its thing
         cpu.doTurn(&player);
 
     } while(player.getNumOfShips() > 0 && cpu.getNumOfShips() > 0);
+
 
     //check winner + print results
     if (cpu.getNumOfShips() == 0) { //if player wins
@@ -377,7 +357,7 @@ int main() {
         spaceConsole(1);
         player.displayBoard();
         cout << "Your Board:" << endl;
-        player.displayWinScreen();
+        displayWinText();
     }
     else if (player.getNumOfShips() == 0) { //if cpu wins
         spaceConsole(50);
@@ -390,7 +370,7 @@ int main() {
         spaceConsole(1);
         player.displayBoard();
         cout << "Your Board:" << endl;
-        player.displayLoseScreen();
+        displayLoseText();
     }
 
 
